@@ -3,20 +3,19 @@ package travelagency.dto;
 import java.util.Date;
 
 public class Booking {
-
+	private int bookingId;
 	private String userName;
 	private String residence;
 	private String email;
 	private String vacationType;
 	private String locationName;
 	private int day;
-	private int night;
 	private Date bookingDate;
 	private int noOfPeople;
 	private int totalPrice;
 
 	public Booking() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	public String getUserName() {
@@ -67,14 +66,6 @@ public class Booking {
 		this.day = day;
 	}
 
-	public int getNight() {
-		return night;
-	}
-
-	public void setNight(int night) {
-		this.night = night;
-	}
-
 	public Date getBookingDate() {
 		return bookingDate;
 	}
@@ -97,6 +88,14 @@ public class Booking {
 
 	public void setTotalPrice(int totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+
+	public int getBookingId() {
+		return bookingId;
+	}
+
+	public void setBookingId(int bookingId) {
+		this.bookingId = bookingId;
 	}
 
 }

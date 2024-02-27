@@ -1,28 +1,28 @@
 package travelagency.dto;
 
 public class Place {
-	private String title;
-	private String text;
+	private String name;
+	private String about;
 
-	public Place(String title, String text) {
-		this.title = title;
-		this.text = text;
+	public Place(String name, String about) {
+		this.name = name;
+		this.about = about;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getName() {
+		return name;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getText() {
-		return text;
+	public String getAbout() {
+		return about;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setAbout(String about) {
+		this.about = about;
 	}
 
 }

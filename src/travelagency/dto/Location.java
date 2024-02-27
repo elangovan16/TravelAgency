@@ -6,7 +6,6 @@ public class Location {
 
 	private String locationName;
 	private int day;
-	private int night;
 	private int price;
 	private List<Place> places;
 
@@ -24,14 +23,6 @@ public class Location {
 
 	public void setDay(int day) {
 		this.day = day;
-	}
-
-	public int getNight() {
-		return night;
-	}
-
-	public void setNight(int night) {
-		this.night = night;
 	}
 
 	public int getPrice() {

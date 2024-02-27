@@ -33,8 +33,8 @@ public class AdminView {
 
 				switch (chioce) {
 				case 1 -> {
-					AddNewPlaceView addPlace = new AddNewPlaceView();
-					addPlace.add();
+					AddNewLocationView addLocation = new AddNewLocationView();
+					addLocation.addLocation();
 				}
 				case 2 -> {
 					ListBookingView listBooking = new ListBookingView();
