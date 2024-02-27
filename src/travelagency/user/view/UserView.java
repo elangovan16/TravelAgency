@@ -14,6 +14,8 @@ public class UserView {
 	}
 
 	public void init() {
+		System.out.println("\t---------Form--------");
+		User user = getUser();
 		Scanner sc = new Scanner(System.in);
 		boolean flag = true;
 		int chioce;
@@ -28,7 +30,7 @@ public class UserView {
 			}
 			case 2 -> {
 				BookPlaceView book = new BookPlaceView();
-				book.booking();
+				book.booking(user);
 			}
 			case 0 -> {
 				System.exit(chioce);
@@ -78,7 +80,7 @@ public class UserView {
 
 		System.out.println("Enter the Vacation Type: ");
 		user.setVacationType(sc.nextLine());
-
+		System.out.println("\t---------------------");
 		return user;
 	}
 

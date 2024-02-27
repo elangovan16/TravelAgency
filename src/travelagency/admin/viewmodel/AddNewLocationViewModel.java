@@ -13,6 +13,12 @@ public class AddNewLocationViewModel {
 
 	public void addNewLocation(Location newLoc) {
 		boolean res = TravelAgencyRepository.getInstance().addNewLocation(newLoc);
+
+		if (res) {
+			addNewLocationView.onSuccess("Location Added Successful ...");
+		} else {
+			addNewLocationView.showError("Location Added Failed");
+		}
 	}
 
 }

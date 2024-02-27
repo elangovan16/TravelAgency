@@ -4,6 +4,10 @@ public class Place {
 	private String name;
 	private String about;
 
+	public Place() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Place(String name, String about) {
 		this.name = name;
 		this.about = about;

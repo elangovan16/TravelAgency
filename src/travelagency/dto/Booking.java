@@ -1,5 +1,6 @@
 package travelagency.dto;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Booking {
@@ -10,7 +11,7 @@ public class Booking {
 	private String vacationType;
 	private String locationName;
 	private int day;
-	private Date bookingDate;
+	private LocalDate bookingDate;
 	private int noOfPeople;
 	private int totalPrice;
 
@@ -66,11 +67,11 @@ public class Booking {
 		this.day = day;
 	}
 
-	public Date getBookingDate() {
+	public LocalDate getBookingDate() {
 		return bookingDate;
 	}
 
-	public void setBookingDate(Date bookingDate) {
+	public void setBookingDate(LocalDate bookingDate) {
 		this.bookingDate = bookingDate;
 	}
 

@@ -35,4 +35,12 @@ public class ListBookingView {
 		}
 	}
 
+	public void onSuccess(String s) {
+		System.out.println(s);
+	}
+
+	public void showError(String errorMessage) {
+		System.err.println(errorMessage);
+	}
+
 }

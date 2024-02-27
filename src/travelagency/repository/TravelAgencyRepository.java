@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -131,9 +132,10 @@ public class TravelAgencyRepository {
 		String query = "SELECT * FROM booking";
 		List<Booking> bookings = new ArrayList<>();
 
-		try (Connection con = GetConnection.getConnection();
-				PreparedStatement pstmt = con.prepareStatement(query);
-				ResultSet resultSet = pstmt.executeQuery()) {
+		try {
+			Connection con = GetConnection.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(query);
+			ResultSet resultSet = pstmt.executeQuery();
 
 			while (resultSet.next()) {
 				Booking booking = new Booking();
@@ -141,10 +143,10 @@ public class TravelAgencyRepository {
 				booking.setUserName(resultSet.getString("user_name"));
 				booking.setResidence(resultSet.getString("residence"));
 				booking.setEmail(resultSet.getString("email"));
-				booking.setVacationType(resultSet.getString("vaction_type"));
+				booking.setVacationType(resultSet.getString("vacation_type"));
 				booking.setLocationName(resultSet.getString("l_name"));
 				booking.setDay(resultSet.getInt("day"));
-				booking.setBookingDate(resultSet.getDate("b_date"));
+				booking.setBookingDate(resultSet.getObject("b_date", LocalDate.class));
 				booking.setNoOfPeople(resultSet.getInt("no_of_people"));
 				booking.setTotalPrice(resultSet.getInt("total_price"));
 
@@ -156,5 +158,116 @@ public class TravelAgencyRepository {
 		}
 
 		return bookings;
+	}
+
+	public List<Location> getAllLocationsWithPlaces() {
+		String query = "SELECT * FROM location";
+		List<Location> locations = new ArrayList<>();
+
+		try {
+			Connection con = GetConnection.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(query);
+			ResultSet resultSet = pstmt.executeQuery();
+
+			while (resultSet.next()) {
+				Location location = new Location();
+				int l_id = resultSet.getInt("l_id");
+				location.setLocationName(resultSet.getString("l_name"));
+				location.setDay(resultSet.getInt("day"));
+				location.setPrice(resultSet.getInt("price"));
+
+				List<Place> places = getPlacesForLocation(l_id);
+				location.setPlaces(places);
+
+				locations.add(location);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return locations;
+	}
+
+	private List<Place> getPlacesForLocation(int locationId) {
+		String query = "SELECT * FROM place WHERE l_id = ?";
+		List<Place> places = new ArrayList<>();
+
+		try {
+			Connection con = GetConnection.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(query);
+
+			pstmt.setInt(1, locationId);
+
+			try (ResultSet resultSet = pstmt.executeQuery()) {
+				while (resultSet.next()) {
+					Place place = new Place();
+					place.setName(resultSet.getString("p_name"));
+					place.setAbout(resultSet.getString("p_about"));
+
+					places.add(place);
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return places;
+	}
+
+	public boolean addBooking(Booking newBooking) {
+		String query = "INSERT INTO booking (user_name, residence, email, vacation_type, l_name, day, b_date, no_of_people, total_price) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+		try {
+			Connection con = GetConnection.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(query);
+
+			pstmt.setString(1, newBooking.getUserName());
+			pstmt.setString(2, newBooking.getResidence());
+			pstmt.setString(3, newBooking.getEmail());
+			pstmt.setString(4, newBooking.getVacationType());
+			pstmt.setString(5, newBooking.getLocationName());
+			pstmt.setInt(6, newBooking.getDay());
+			pstmt.setDate(7, java.sql.Date.valueOf(newBooking.getBookingDate()));
+			pstmt.setInt(8, newBooking.getNoOfPeople());
+			pstmt.setInt(9, newBooking.getTotalPrice());
+
+			int rowsAffected = pstmt.executeUpdate();
+
+			return rowsAffected > 0;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+
+	public Location getLocationByName(String locationName) {
+		String query = "SELECT * FROM location WHERE l_name = ?";
+		Location location = null;
+
+		try {
+			Connection con = GetConnection.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(query);
+
+			pstmt.setString(1, locationName);
+
+			try (ResultSet resultSet = pstmt.executeQuery()) {
+				if (resultSet.next()) {
+					location = new Location();
+					location.setLocationName(resultSet.getString("l_name"));
+					location.setDay(resultSet.getInt("day"));
+					location.setPrice(resultSet.getInt("price"));
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return location;
 	}
 }
